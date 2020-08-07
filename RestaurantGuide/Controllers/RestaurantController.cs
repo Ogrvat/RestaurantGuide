@@ -72,7 +72,7 @@ namespace RestaurantGuide.Controllers
 		/// Рестораны города
 		/// </summary>
 		/// <param name="cityName">Наименование города</param>
-		/// <param name="page">Номер страницы</param>
+		/// <param name="page">Номер страницы (не обязательный параметр)</param>
 		/// <returns></returns>
 		[HttpGet]
 		[Route("GetRestaurants")]
@@ -99,7 +99,7 @@ namespace RestaurantGuide.Controllers
 			if (page.HasValue)
 			{
 				var restaurantCount = await db.Restaurants.CountAsync();
-				if(_pageSize < 1 || ((_pageSize * (page.Value - 1)) > restaurantCount))
+				if(page.Value < 1 || ((_pageSize * (page.Value - 1)) > restaurantCount))
 				{
 					return BadRequest($"page от 1 до {(restaurantCount / _pageSize) + 1}");
 				}
